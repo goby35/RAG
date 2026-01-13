@@ -14,7 +14,7 @@ genai.configure(api_key=os.environ['GOOGLE_API_KEY'])
 # Load data từ CSV (file phải upload lên GitHub repo cùng app.py)
 @st.cache_data
 def load_data():
-    data_df = pd.read_csv('testt.csv')  # Giả sử file ở cùng thư mục
+    data_df = pd.read_csv('data_mock.csv')  # Giả sử file ở cùng thư mục
     return data_df
 
 data_df = load_data()
