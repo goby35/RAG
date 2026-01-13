@@ -51,9 +51,9 @@ def gatekeeper_filter(user_role):
     if user_role == "Owner":
         return list(range(len(documents)))  # All
     elif user_role == "Recruiter":
-        return [i for i, m in enumerate(metadata) if m["access_level"] in ["Verified", "Public"]]
+        return [i for i, m in enumerate(metadata) if m["access_level"] in ["attested", "public"]]
     else:  # Anonymous
-        return [i for i, m in enumerate(metadata) if m["access_level"] == "Public"]
+        return [i for i, m in enumerate(metadata) if m["access_level"] == "public"]
 
 # RAG function đơn giản
 def simple_rag(query, user_role="Recruiter"):

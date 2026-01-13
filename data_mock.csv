@@ -6,12 +6,12 @@ Blockchain_Project_X,USES,Smart_Contract,Git repository,public,attested
 Smart_Contract,DEPLOYED_ON,Ethereum_Mainnet,Transaction hash,public,attested
 Goby,HAS_SKILL,Python & Graph RAG,Github Repo,public,attested
 Goby,DEVELOPED,Verifiable Digital Me,Thesis,public,pending
-Goby,HAS_PHONE,0909-888-999,Sim Card,private,self-declared
+Goby,HAS_PHONE,0909-888-999,Sim Card,private,attested
 Alice,HAS_ROLE,Senior Dev,Contract,public,attested
 Alice,INVESTED_IN,Hidden Gem Token,Wallet Tx,private,pending
 Bob,INTERVIEWED,Goby,Interview Notes & Score,recruiter,attested
 Bob,WORKS_AT,TechCorp Inc.,LinkedIn Profile,public,attested
-Bob,LOOKING_FOR,Senior React Developer,Job Posting,public,self-declared
+Bob,LOOKING_FOR,Senior React Developer,Job Posting,public,attested
 Bob,ENDORSED,Alice,LinkedIn Skill Endorsement,public,attested
 Verifiable Digital Me,USES_LIBRARY,ethers.js,package.json file,public,attested
 Verifiable Digital Me,DEPLOYED_AT,Vercel,Deployment Logs,recruiter,attested
@@ -22,5 +22,5 @@ User_B,FUNDED,Blockchain_Project_X,Bank Transfer,private,attested
 Bob,CONNECTED_WITH,Alice,LinkedIn Connection,public,attested
 Goby,COMPLETED_COURSE,Zero Knowledge Proofs 101,Certificate,public,attested
 Smart_Contract,HAS_VULNERABILITY,Reentrancy (Fixed),Audit Report v1,private,attested
-User_A,HAS_GOAL,Become Fullstack Web3 Dev,Personal Roadmap,private,self-declared
+User_A,HAS_GOAL,Become Fullstack Web3 Dev,Personal Roadmap,private,attested
 Alice,WON_AWARD,Best DeFi Innovation 2023,Trophy Photo,public,attested
