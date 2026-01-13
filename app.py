@@ -4,12 +4,14 @@ import os
 import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
-import google.generativeai as genai
+# import google.generativeai as genai
 import pandas as pd
+from groq import Groq
 
 # Cấu hình Gemini API từ secrets
-os.environ['GOOGLE_API_KEY'] = st.secrets['GOOGLE_API_KEY']
-genai.configure(api_key=os.environ['GOOGLE_API_KEY'])
+# os.environ['GOOGLE_API_KEY'] = st.secrets['GOOGLE_API_KEY']
+os.environ['GROQ_API_KEY'] = st.secrets['GROQ_API_KEY']
+# genai.configure(api_key=os.environ['GOOGLE_API_KEY'])
 
 # Load data từ CSV (file phải upload lên GitHub repo cùng app.py)
 @st.cache_data
@@ -77,9 +79,17 @@ def simple_rag(query, user_role="Recruiter"):
 
     # Generate với Gemini
     prompt = f"Answer based on verified context only: {context_str}\nQuestion: {query}\nAnswer:"
-    model = genai.GenerativeModel('gemini-2.5-flash')
-    response = model.generate_content(prompt)
-    return response.text
+    client = Groq(api_key=os.environ['GROQ_API_KEY'])
+    try:
+        response = client.chat.completions.create(
+            model="llama3-8b-8192",  # Hoặc "mixtral-8x7b-32768" nếu muốn dùng Mixtral
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.7,  # Có thể chỉnh để phù hợp
+            max_tokens=512    # Giới hạn output để tiết kiệm
+        )
+        return response.choices[0].message["content"]
+    except Exception as e:
+        return f"Error: {e}"
 
 # Giao diện Streamlit
 st.title("RAG Demo App")
