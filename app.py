@@ -77,7 +77,7 @@ def simple_rag(query, user_role="Recruiter"):
 
     # Generate với Gemini
     prompt = f"Answer based on verified context only: {context_str}\nQuestion: {query}\nAnswer:"
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-pro')
     response = model.generate_content(prompt)
     return response.text
 
