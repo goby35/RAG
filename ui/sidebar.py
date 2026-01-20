@@ -223,7 +223,6 @@ def render_csv_uploader():
 def render_sidebar():
     """Render toàn bộ sidebar."""
     st.sidebar.title("Thêm Dữ Liệu")
-    st.sidebar.markdown("Nhập thông tin theo phong cách LinkedIn")
     
     # 1. Chọn/tạo user
     user_id = render_user_profile_form()

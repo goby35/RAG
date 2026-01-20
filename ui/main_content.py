@@ -21,9 +21,9 @@ def render_viewer_selection(user_ids: list) -> tuple:
     Returns:
         Tuple (viewer_id, viewer_role)
     """
-    st.subheader("Bạn là ai? (Viewer)")
+    st.subheader("Bạn là ai?")
     
-    viewer_options = ["Khách vãng lai (Anonymous)"] + user_ids
+    viewer_options = ["Khách vãng lai"] + user_ids
     viewer_selection = st.selectbox(
         "Chọn danh tính của bạn:",
         viewer_options,
@@ -31,14 +31,14 @@ def render_viewer_selection(user_ids: list) -> tuple:
     )
     
     # Xác định Viewer ID
-    if viewer_selection == "Khách vãng lai (Anonymous)":
+    if viewer_selection == "Khách vãng lai":
         viewer_id = "__ANONYMOUS__"
     else:
         viewer_id = viewer_selection
     
     # Role selection (nâng cao)
     viewer_role = st.selectbox(
-        "Role đặc biệt (tùy chọn):",
+        "Role (tùy chọn):",
         ["Default", "Recruiter"],
         key="viewer_role",
         help="Recruiter có thể xem thêm dữ liệu đã verified"
