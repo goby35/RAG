@@ -2,3 +2,4 @@ sentence-transformers
 faiss-cpu
 google-generativeai
 pandas
+openai

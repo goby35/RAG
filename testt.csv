@@ -1,6 +1,0 @@
-Source,Relation,Target,Evidence,Access_Level,Status
-User_A,RESEARCHES,Blockchain,Personal notes & papers,private,pending
-User_A,DISCUSSES_WITH,User_B,Chat conversation,private,pending
-User_B,WORKS_ON,Blockchain_Project_X,Project documentation,recruiter,attested
-Blockchain_Project_X,USES,Smart_Contract,Git repository,public,attested
-Smart_Contract,DEPLOYED_ON,Ethereum_Mainnet,Transaction hash,public,attested
