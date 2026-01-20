@@ -1,36 +1,56 @@
-# Multi-user Interactive RAG Application
+# Multi-user Interactive RAG Application with Graph Schema
 
-Ứng dụng RAG (Retrieval-Augmented Generation) cho phép nhiều người dùng truy vấn thông tin với hệ thống phân quyền dựa trên Viewer ID và Target User ID.
+Ứng dụng RAG (Retrieval-Augmented Generation) với Knowledge Graph Schema, hỗ trợ EAS (Ethereum Attestation Service) integration và Confidence Scoring.
 
-## Cấu trúc dự án
+## 🎯 Tính năng chính
+
+- **Multi-user Access Control**: Phân quyền Owner/Recruiter/Public
+- **Graph-based Knowledge**: Nodes (User, Claim, Entity, Evidence) + Edges
+- **Confidence Scoring**: Đánh giá độ tin cậy của thông tin
+- **EAS Ready**: Chuẩn bị cho blockchain attestation integration
+- **AI-powered Extraction**: Tự động extract claims từ text tự nhiên
+
+## 📁 Cấu trúc dự án
 
 ```
 RAG/
 ├── app.py                      # Entry point - khởi động ứng dụng
 ├── config.py                   # Configuration & constants
-├── data_mock.csv               # Dữ liệu mẫu (Knowledge Graph)
 ├── requirements.txt            # Dependencies
 ├── README.md                   # Documentation
 │
 ├── .streamlit/
-│   └── secrets.toml            # API keys (OpenAI)
+│   └── secrets.toml            # API keys (OpenAI) - KHÔNG COMMIT
+│
+├── models/                     # Data Models (NEW)
+│   ├── __init__.py
+│   └── schema.py               # User, Claim, Entity, Evidence classes
+│
+├── data/                       # JSON Data Storage (NEW)
+│   ├── users.json              # User nodes
+│   ├── claims.json             # Claim nodes (trung tâm logic)
+│   ├── entities.json           # Entity nodes (skills, orgs...)
+│   └── evidence.json           # Evidence nodes (links, files)
 │
 ├── utils/                      # Utility modules
 │   ├── __init__.py
-│   ├── data_loader.py          # Load/save CSV data
+│   ├── data_loader.py          # Load/save JSON & CSV data
 │   ├── document_processor.py   # Tạo summary với OpenAI
 │   ├── embeddings.py           # SentenceTransformer & FAISS index
-│   ├── gatekeeper.py           # Access control logic
-│   ├── rag_engine.py           # RAG pipeline chính
-│   └── triple_extractor.py     # AI extract triples từ text
+│   ├── entity_linker.py        # Entity Linking (NEW)
+│   ├── gatekeeper.py           # Access control + Confidence Filter
+│   ├── rag_engine.py           # RAG pipeline với Confidence
+│   └── triple_extractor.py     # AI extract Claims từ text
 │
-└── ui/                         # UI components
-    ├── __init__.py
-    ├── sidebar.py              # Sidebar - Form nhập liệu
-    └── main_content.py         # Main content - Query interface
+├── ui/                         # UI components
+│   ├── __init__.py
+│   ├── sidebar.py              # Form nhập liệu thân thiện
+│   └── main_content.py         # Query interface
+│
+└── data_mock.csv               # Legacy data (backward compatible)
 ```
 
-## Cách khởi tạo dự án
+## 🚀 Cách khởi tạo dự án
 
 ### 1. Clone/Tải dự án
 
@@ -63,83 +83,104 @@ streamlit run app.py
 
 Ứng dụng sẽ mở tại: http://localhost:8501
 
-## Mô tả các module
+## 📊 Graph Schema
 
-### Core Modules
+### Nodes
+
+| Node Type | Mô tả | Key Properties |
+|-----------|-------|----------------|
+| **User** | Freelancer, Recruiter, Organization | `user_id`, `wallet_address`, `did`, `roles` |
+| **Claim** | Khẳng định của user (TRUNG TÂM) | `content_summary`, `access_level`, `confidence_score`, `eas_uid` |
+| **Entity** | Skill, Organization, Project... | `name`, `canonical_id`, `entity_type` |
+| **Evidence** | Bằng chứng (GitHub, PDF...) | `url`, `evidence_type`, `file_hash` |
+
+### Edges (Relationships)
+
+```
+User --[MAKES_CLAIM]--> Claim
+Claim --[ABOUT]--> Entity
+Claim --[SUPPORTED_BY]--> Evidence
+User --[VERIFIES]--> Claim (EAS Attestation)
+```
+
+### Confidence Score Logic
+
+| Trạng thái | Score | Mô tả |
+|------------|-------|-------|
+| Self-declared | 0.3 | Tự khai báo, chưa có bằng chứng |
+| + Evidence | 0.5 | Có link GitHub/Portfolio |
+| + EAS Attestation | 0.9 | Đã được xác thực trên blockchain |
+| + Trusted Org | 1.0 | Xác thực từ tổ chức uy tín |
+
+## 🔐 Gatekeeper Logic
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Gatekeeper Logic v2                       │
+├─────────────────────────────────────────────────────────────┤
+│ Bước 1 (Scope): Lọc Claims theo Target User ID              │
+│ Bước 2 (Access Control):                                     │
+│   - Owner (Viewer == Target): Xem TẤT CẢ                    │
+│   - Recruiter: Xem public + verified (connections_only)     │
+│   - Public/Anonymous: Chỉ xem public                        │
+│ Bước 3 (Confidence Filter): Lọc theo minimum confidence     │
+└─────────────────────────────────────────────────────────────┘
+```
+
+## 🧠 RAG với Confidence
+
+RAG Engine tích hợp Confidence Score vào prompt:
+
+```
+✅ [VERIFIED - EAS Attested] (Confidence: 90%)
+  User goby có 5 năm kinh nghiệm Python...
+
+📎 [Has Evidence] (Confidence: 50%)
+  User goby xây dựng hệ thống RAG chatbot...
+
+📝 [Self-Declared] (Confidence: 30%)
+  User goby tốt nghiệp ĐH Bách Khoa...
+```
+
+AI sẽ trả lời với caveat phù hợp:
+- "Đã được xác thực rằng..." cho verified claims
+- "Theo khai báo của người dùng..." cho self-declared
+
+## 📝 Core Modules
 
 | Module | Chức năng |
 |--------|-----------|
-| `config.py` | Chứa API keys, constants, model settings |
-| `utils/data_loader.py` | Load/save dữ liệu CSV |
-| `utils/document_processor.py` | Tạo document summary với OpenAI |
-| `utils/embeddings.py` | Embedding với SentenceTransformer, FAISS index |
-| `utils/gatekeeper.py` | Logic phân quyền (Owner/Recruiter/Public) |
-| `utils/rag_engine.py` | Pipeline RAG: Retrieve + Generate |
-| `utils/triple_extractor.py` | AI extract triples từ text tự nhiên |
+| `models/schema.py` | Data classes: User, Claim, Entity, Evidence |
+| `config.py` | API keys, constants, confidence thresholds |
+| `utils/data_loader.py` | Load/save JSON & CSV data |
+| `utils/entity_linker.py` | Map entities về canonical_id |
+| `utils/gatekeeper.py` | Access control + Confidence Filter |
+| `utils/rag_engine.py` | RAG với Confidence-aware prompts |
+| `utils/triple_extractor.py` | AI extract Claims từ text |
 
-### UI Modules
+## 🔄 Entity Linking
 
-| Module | Chức năng |
-|--------|-----------|
-| `ui/sidebar.py` | Form nhập liệu thân thiện (giống LinkedIn) |
-| `ui/main_content.py` | Viewer/Target selection, Query interface |
-
-## Logic phân quyền (Gatekeeper)
+Tránh Graph bị phân mảnh (fragmented):
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                    Gatekeeper Logic                      │
-├─────────────────────────────────────────────────────────┤
-│ Bước 1 (Scope): Lọc dữ liệu theo Target User ID         │
-│ Bước 2 (Access Control):                                 │
-│   - Owner (Viewer == Target): Xem TẤT CẢ                │
-│   - Recruiter: Xem public + verified data               │
-│   - Public/Anonymous: Chỉ xem public                    │
-└─────────────────────────────────────────────────────────┘
+Input: "Py", "Python 3", "Snake Lang"
+       ↓ Entity Linker
+Output: canonical_id = "tech_python"
 ```
 
-## Cách nhập dữ liệu
+## 🌐 EAS Integration (Future)
 
-### Form nhập liệu thân thiện
+Chuẩn bị để tích hợp Ethereum Attestation Service:
 
-Thay vì nhập trực tiếp `Source -> Relation -> Target`, người dùng nhập:
-
-1. **Loại thông tin**: Kinh nghiệm, Kỹ năng, Dự án, Chứng chỉ, Học vấn
-2. **Nội dung mô tả**: Viết tự nhiên như trên LinkedIn
-3. **Link bằng chứng**: URL GitHub, LinkedIn, Certificate...
-4. **Chế độ hiển thị**: Public / Private / Connections Only
-5. **Trạng thái xác minh**: Self-declared / Attested / Pending
-
-### AI Auto-Extract
-
-Hệ thống sử dụng OpenAI để tự động chuyển đổi:
-
-**Input (User nhập)**:
+```typescript
+// Claim đã có sẵn các fields cho EAS
+{
+  "eas_uid": "0xabc123...",
+  "attester_address": "0x9876...",
+  "verified_at": "2024-06-15T12:00:00",
+  "verified_by": "org_techcorp"
+}
 ```
-"Tôi dùng Python để xây dựng backend cho dự án Tiki trong 2 năm"
-```
-
-**Output (AI extract)**:
-```json
-[
-  {"Source": "User_A", "Relation": "HAS_SKILL", "Target": "Python"},
-  {"Source": "User_A", "Relation": "WORKED_ON", "Target": "Tiki Backend"},
-  {"Source": "User_A", "Relation": "HAS_EXPERIENCE", "Target": "2 years Backend Development"}
-]
-```
-
-## Data Schema
-
-File `data_mock.csv` có cấu trúc:
-
-| Column | Mô tả | Ví dụ |
-|--------|-------|-------|
-| Source | User ID / Entity | `Goby`, `Alice` |
-| Relation | Loại quan hệ | `HAS_SKILL`, `WORKED_ON` |
-| Target | Đối tượng | `Python`, `TechCorp` |
-| Evidence | Link bằng chứng | `github.com/...` |
-| Access_Level | Quyền xem | `public`, `private` |
-| Status | Trạng thái xác minh | `attested`, `pending` |
 
 ## 🛠️ Tech Stack
 
@@ -147,7 +188,20 @@ File `data_mock.csv` có cấu trúc:
 - **Embedding**: SentenceTransformers (`paraphrase-mpnet-base-v2`)
 - **Vector Search**: FAISS
 - **LLM**: OpenAI GPT-4o-mini
-- **Data Storage**: CSV (có thể mở rộng sang Neo4j)
+- **Data Storage**: JSON (ready for Neo4j migration)
+- **Future**: EAS (Ethereum Attestation Service)
+
+## 📦 Dependencies
+
+```txt
+streamlit
+openai
+sentence-transformers
+faiss-cpu
+pandas
+numpy
+tf-keras
+```
 
 ## License
 

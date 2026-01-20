@@ -1,0 +1,154 @@
+[
+  {
+    "entity_id": "ent_001",
+    "name": "Python",
+    "canonical_id": "tech_python",
+    "entity_type": "Skill",
+    "description": "Python programming language - versatile, high-level programming language",
+    "aliases": ["Py", "Python 3", "Python3"]
+  },
+  {
+    "entity_id": "ent_002",
+    "name": "FastAPI",
+    "canonical_id": "framework_fastapi",
+    "entity_type": "Skill",
+    "description": "Modern, fast web framework for building APIs with Python 3.7+",
+    "aliases": ["Fast API"]
+  },
+  {
+    "entity_id": "ent_003",
+    "name": "Django",
+    "canonical_id": "framework_django",
+    "entity_type": "Skill",
+    "description": "High-level Python web framework",
+    "aliases": []
+  },
+  {
+    "entity_id": "ent_004",
+    "name": "React",
+    "canonical_id": "framework_react",
+    "entity_type": "Skill",
+    "description": "JavaScript library for building user interfaces",
+    "aliases": ["ReactJS", "React.js"]
+  },
+  {
+    "entity_id": "ent_005",
+    "name": "TypeScript",
+    "canonical_id": "tech_typescript",
+    "entity_type": "Skill",
+    "description": "Typed superset of JavaScript that compiles to plain JavaScript",
+    "aliases": ["TS"]
+  },
+  {
+    "entity_id": "ent_006",
+    "name": "LangChain",
+    "canonical_id": "lib_langchain",
+    "entity_type": "Skill",
+    "description": "Framework for developing applications powered by language models",
+    "aliases": []
+  },
+  {
+    "entity_id": "ent_007",
+    "name": "OpenAI",
+    "canonical_id": "lib_openai",
+    "entity_type": "Skill",
+    "description": "OpenAI API and GPT models",
+    "aliases": ["GPT", "ChatGPT", "GPT-4"]
+  },
+  {
+    "entity_id": "ent_008",
+    "name": "Natural Language Processing",
+    "canonical_id": "skill_nlp",
+    "entity_type": "Skill",
+    "description": "NLP - Field of AI focused on human language processing",
+    "aliases": ["NLP"]
+  },
+  {
+    "entity_id": "ent_009",
+    "name": "Machine Learning",
+    "canonical_id": "skill_ml",
+    "entity_type": "Skill",
+    "description": "ML - Study of algorithms that improve through experience",
+    "aliases": ["ML"]
+  },
+  {
+    "entity_id": "ent_010",
+    "name": "Computer Vision",
+    "canonical_id": "skill_cv",
+    "entity_type": "Skill",
+    "description": "CV - Field of AI that enables computers to interpret visual information",
+    "aliases": ["CV"]
+  },
+  {
+    "entity_id": "ent_011",
+    "name": "Backend Development",
+    "canonical_id": "skill_backend",
+    "entity_type": "Skill",
+    "description": "Server-side development including APIs, databases, and business logic",
+    "aliases": ["Backend", "Back-end"]
+  },
+  {
+    "entity_id": "ent_012",
+    "name": "Artificial Intelligence",
+    "canonical_id": "skill_ai",
+    "entity_type": "Skill",
+    "description": "AI - Broad field of computer science focused on building intelligent systems",
+    "aliases": ["AI"]
+  },
+  {
+    "entity_id": "ent_013",
+    "name": "AWS Solutions Architect",
+    "canonical_id": "cert_aws_sa",
+    "entity_type": "Certificate",
+    "description": "AWS Certified Solutions Architect certification",
+    "aliases": ["AWS SA", "AWS Architect"]
+  },
+  {
+    "entity_id": "ent_014",
+    "name": "Amazon Web Services",
+    "canonical_id": "cloud_aws",
+    "entity_type": "Skill",
+    "description": "AWS cloud computing platform",
+    "aliases": ["AWS"]
+  },
+  {
+    "entity_id": "ent_015",
+    "name": "TechCorp Vietnam",
+    "canonical_id": "org_techcorp",
+    "entity_type": "Organization",
+    "description": "Leading technology company in Vietnam specializing in AI/ML and Blockchain",
+    "aliases": ["TechCorp", "TechCorp VN"]
+  },
+  {
+    "entity_id": "ent_016",
+    "name": "Google",
+    "canonical_id": "org_google",
+    "entity_type": "Organization",
+    "description": "American multinational technology company",
+    "aliases": ["Google Inc", "Alphabet"]
+  },
+  {
+    "entity_id": "ent_017",
+    "name": "Bachelor of Science",
+    "canonical_id": "edu_bachelor",
+    "entity_type": "Education",
+    "description": "Undergraduate academic degree in science",
+    "aliases": ["BS", "BSc", "Bachelor"]
+  },
+  {
+    "entity_id": "ent_018",
+    "name": "Computer Science",
+    "canonical_id": "field_cs",
+    "entity_type": "Education",
+    "description": "Study of computation, algorithms, and programming",
+    "aliases": ["CS", "CompSci"]
+  },
+  {
+    "entity_id": "ent_019",
+    "name": "Hackathon Achievement",
+    "canonical_id": "achieve_hackathon",
+    "entity_type": "Achievement",
+    "description": "Awards and recognition from hackathon competitions",
+    "aliases": []
+  }
+]

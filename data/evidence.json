@@ -1,0 +1,34 @@
+[
+  {
+    "evidence_id": "evidence_001",
+    "evidence_type": "GithubRepo",
+    "url": "https://github.com/goby/python-projects",
+    "file_hash": null,
+    "visibility": "public",
+    "description": "Repository chứa các dự án Python của goby"
+  },
+  {
+    "evidence_id": "evidence_002",
+    "evidence_type": "GithubRepo",
+    "url": "https://github.com/goby/react-portfolio",
+    "file_hash": null,
+    "visibility": "public",
+    "description": "Portfolio website xây dựng bằng React và TypeScript"
+  },
+  {
+    "evidence_id": "evidence_003",
+    "evidence_type": "GithubRepo",
+    "url": "https://github.com/goby/rag-chatbot",
+    "file_hash": null,
+    "visibility": "public",
+    "description": "RAG Chatbot project sử dụng LangChain và OpenAI"
+  },
+  {
+    "evidence_id": "evidence_004",
+    "evidence_type": "Certificate",
+    "url": "https://aws.amazon.com/certification/verify/ABC123XYZ",
+    "file_hash": null,
+    "visibility": "public",
+    "description": "Link xác thực chứng chỉ AWS Solutions Architect"
+  }
+]

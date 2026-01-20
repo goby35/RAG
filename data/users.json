@@ -1,0 +1,42 @@
+[
+  {
+    "user_id": "goby",
+    "name": "Goby",
+    "wallet_address": "0x1234567890abcdef1234567890abcdef12345678",
+    "did": "did:pkh:0x1234567890abcdef1234567890abcdef12345678",
+    "roles": ["Freelancer"],
+    "reputation_score": 0.75,
+    "bio": "Full-stack developer với 5 năm kinh nghiệm, chuyên về Python và React. Đam mê xây dựng hệ thống AI/ML và Web3.",
+    "created_at": "2024-01-15T10:00:00"
+  },
+  {
+    "user_id": "alice",
+    "name": "Alice Nguyen",
+    "wallet_address": "0xabcdef1234567890abcdef1234567890abcdef12",
+    "did": "did:pkh:0xabcdef1234567890abcdef1234567890abcdef12",
+    "roles": ["Freelancer", "Verifier"],
+    "reputation_score": 0.85,
+    "bio": "Senior ML Engineer tại Google, chuyên gia NLP và Computer Vision. Mentor cho các developer mới.",
+    "created_at": "2024-02-10T14:30:00"
+  },
+  {
+    "user_id": "bob",
+    "name": "Bob Tran",
+    "wallet_address": null,
+    "did": null,
+    "roles": ["Recruiter"],
+    "reputation_score": 0.0,
+    "bio": "HR Manager tại TechCorp Vietnam, tìm kiếm talent trong lĩnh vực AI và Blockchain.",
+    "created_at": "2024-03-01T09:00:00"
+  },
+  {
+    "user_id": "org_techcorp",
+    "name": "TechCorp Vietnam",
+    "wallet_address": "0x9876543210fedcba9876543210fedcba98765432",
+    "did": "did:pkh:0x9876543210fedcba9876543210fedcba98765432",
+    "roles": ["Organization", "Verifier"],
+    "reputation_score": 1.0,
+    "bio": "Công ty công nghệ hàng đầu Vietnam, chuyên về AI/ML solutions và Blockchain development.",
+    "created_at": "2023-06-01T00:00:00"
+  }
+]
