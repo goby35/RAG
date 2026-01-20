@@ -24,3 +24,6 @@ Goby,COMPLETED_COURSE,Zero Knowledge Proofs 101,Certificate,public,attested
 Smart_Contract,HAS_VULNERABILITY,Reentrancy (Fixed),Audit Report v1,private,attested
 User_A,HAS_GOAL,Become Fullstack Web3 Dev,Personal Roadmap,private,attested
 Alice,WON_AWARD,Best DeFi Innovation 2023,Trophy Photo,public,attested
+User_C,RESEARCHES,Blockchain,Personal notes & papers,public,attested
+Alice,WORKED_AT,Titops,https://www.linkedin.com/in/ngoctran-goby3524/,public,attested
+Alice,HAS_ROLE,PM,https://www.linkedin.com/in/ngoctran-goby3524/,public,attested

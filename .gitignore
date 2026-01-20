@@ -1,0 +1,142 @@
+# ============================================
+# .gitignore for RAG Application
+# ============================================
+
+# ============================================
+# 🔐 SECURITY - API Keys & Secrets
+# ============================================
+.streamlit/secrets.toml
+secrets.toml
+*.env
+.env
+.env.local
+.env.*.local
+config.local.py
+
+# ============================================
+# 🐍 Python
+# ============================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ============================================
+# 📦 Virtual Environments
+# ============================================
+venv/
+ENV/
+env/
+.venv/
+.conda/
+conda-env/
+
+# ============================================
+# 📊 Jupyter Notebook
+# ============================================
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ============================================
+# 🧪 Testing & Coverage
+# ============================================
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+*.py,cover
+
+# ============================================
+# 📝 IDE & Editor
+# ============================================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+*.sublime-workspace
+*.sublime-project
+
+# ============================================
+# 💻 OS Generated
+# ============================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ============================================
+# 📁 Logs & Temporary Files
+# ============================================
+*.log
+*.tmp
+*.temp
+logs/
+temp/
+tmp/
+
+# ============================================
+# 🤖 ML/AI Model Files (Large)
+# ============================================
+*.h5
+*.pkl
+*.pickle
+*.model
+*.pt
+*.pth
+*.onnx
+models/
+*.bin
+
+# ============================================
+# 📊 Data Files (Optional - uncomment if needed)
+# ============================================
+# data_mock.csv
+# *.csv
+# *.xlsx
+# *.json
+
+# ============================================
+# 🔍 FAISS Index Files
+# ============================================
+*.index
+*.faiss
+faiss_index/
+
+# ============================================
+# 📦 Package Manager
+# ============================================
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ============================================
+# 🐳 Docker
+# ============================================
+.docker/
+docker-compose.override.yml
