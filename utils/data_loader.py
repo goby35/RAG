@@ -17,7 +17,12 @@ import pandas as pd
 import streamlit as st
 
 import sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+# Add project root to path for imports
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+
 from config import (
     DATA_FILE, DATA_COLUMNS, CACHE_TTL,
     USERS_FILE, CLAIMS_FILE, ENTITIES_FILE, EVIDENCE_FILE,

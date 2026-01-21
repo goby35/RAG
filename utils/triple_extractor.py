@@ -15,10 +15,13 @@ from openai import OpenAI
 
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+# Add project root to path for imports
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+
 from config import get_openai_api_key, LLM_MODEL, CLAIM_TOPICS, CONFIDENCE_SCORES
-from models.schema import Claim, Entity, Evidence, ClaimStatus, create_claim_from_input
-from utils.entity_linker import link_or_create_entity, get_entity_linker
 
 
 # ============================================================================
@@ -127,7 +130,7 @@ def extract_claims(
     description: str, 
     evidence: str = "",
     access_level: str = "public"
-) -> Tuple[List[Claim], List[Entity], Optional[Evidence]]:
+):
     """
     Sử dụng AI để extract Claims, Entities từ mô tả tự nhiên.
     
@@ -141,6 +144,10 @@ def extract_claims(
     Returns:
         Tuple: (List[Claim], List[Entity], Evidence or None)
     """
+    # Lazy imports to avoid circular dependency
+    from models.schema import Claim, Entity, Evidence, ClaimStatus
+    from utils.entity_linker import link_or_create_entity, get_entity_linker
+    
     if not description.strip():
         return [], [], None
     
@@ -295,7 +302,7 @@ def extract_triples(user_id: str, category: str, description: str,
 # PREVIEW FUNCTIONS
 # ============================================================================
 
-def preview_claims(claims: List[Claim], entities: List[Entity]) -> str:
+def preview_claims(claims, entities) -> str:
     """
     Tạo preview text cho các Claims đã extract.
     

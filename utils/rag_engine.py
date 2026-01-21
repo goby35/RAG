@@ -15,7 +15,12 @@ from sentence_transformers import SentenceTransformer
 
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+# Add project root to path for imports
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+
 from config import (
     get_openai_api_key, LLM_MODEL, MAX_TOKENS_RESPONSE, DEFAULT_TOP_K,
     CONFIDENCE_SCORES, MIN_CONFIDENCE_TRUSTED
