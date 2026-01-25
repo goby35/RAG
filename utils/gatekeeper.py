@@ -145,7 +145,7 @@ def get_access_info(viewer_id: str, target_user_id: str, viewer_role: str) -> di
     if viewer_id == target_user_id:
         return {
             "type": "owner",
-            "icon": "🔓",
+            "icon": "",
             "label": "Owner Access",
             "description": "Bạn đang xem hồ sơ của chính mình. Có thể xem TẤT CẢ dữ liệu.",
             "level": "success",
@@ -154,7 +154,7 @@ def get_access_info(viewer_id: str, target_user_id: str, viewer_role: str) -> di
     elif viewer_role == "Recruiter":
         return {
             "type": "recruiter",
-            "icon": "👔",
+            "icon": "",
             "label": "Recruiter Access",
             "description": f"Bạn có thể xem dữ liệu `public` và `verified` của '{target_user_id}'.",
             "level": "info",
@@ -163,7 +163,7 @@ def get_access_info(viewer_id: str, target_user_id: str, viewer_role: str) -> di
     elif viewer_id == "__ANONYMOUS__":
         return {
             "type": "anonymous",
-            "icon": "👁️",
+            "icon": "",
             "label": "Anonymous Access",
             "description": f"Bạn chỉ có thể xem dữ liệu `public` của '{target_user_id}'.",
             "level": "warning",
@@ -172,7 +172,7 @@ def get_access_info(viewer_id: str, target_user_id: str, viewer_role: str) -> di
     else:
         return {
             "type": "public",
-            "icon": "👁️",
+            "icon": "",
             "label": "Public Access",
             "description": f"Bạn ({viewer_id}) chỉ có thể xem dữ liệu `public` của '{target_user_id}'.",
             "level": "warning",
