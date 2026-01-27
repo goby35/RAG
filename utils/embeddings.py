@@ -6,8 +6,17 @@ from sentence_transformers import SentenceTransformer
 
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from config import EMBEDDING_MODEL
+
+# Add project root to path for imports
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+
+# Try importing from new config module, fallback to old
+try:
+    from config.models import EMBEDDING_MODEL
+except ImportError:
+    from config import EMBEDDING_MODEL
 
 
 @st.cache_resource

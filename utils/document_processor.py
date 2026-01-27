@@ -5,14 +5,26 @@ from openai import OpenAI
 
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from config import (
-    get_openai_api_key, 
-    LLM_MODEL, 
-    MAX_TOKENS_SUMMARY, 
-    CACHE_TTL,
-    VERIFIED_STATUSES
-)
+
+# Add project root to path for imports
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+
+# Try importing from new config module, fallback to old
+try:
+    from config.settings import get_openai_api_key
+    from config.models import LLM_MODEL, MAX_TOKENS_SUMMARY
+    from config.paths import CACHE_TTL
+    from config.access import VERIFIED_STATUSES
+except ImportError:
+    from config import (
+        get_openai_api_key, 
+        LLM_MODEL, 
+        MAX_TOKENS_SUMMARY, 
+        CACHE_TTL,
+        VERIFIED_STATUSES
+    )
 
 
 def generate_document_summary(client: OpenAI, row: pd.Series) -> str:

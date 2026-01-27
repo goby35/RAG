@@ -3,3 +3,5 @@ faiss-cpu
 google-generativeai
 pandas
 openai
+neo4j>=5.0.0
+streamlit

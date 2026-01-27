@@ -28,8 +28,12 @@ Cấu trúc project:
 import streamlit as st
 import numpy as np
 
-# Local imports
-from config import init_api_keys
+# Local imports - try new config module first
+try:
+    from config.settings import init_api_keys
+except ImportError:
+    from config import init_api_keys
+    
 from utils.data_loader import (
     load_data, get_unique_user_ids, 
     get_documents_and_metadata, get_all_user_ids

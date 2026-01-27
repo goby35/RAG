@@ -21,7 +21,14 @@ PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-from config import get_openai_api_key, LLM_MODEL, CLAIM_TOPICS, CONFIDENCE_SCORES
+# Try importing from new config module, fallback to old
+try:
+    from config.settings import get_openai_api_key
+    from config.models import LLM_MODEL
+    from config.entities import CLAIM_TOPICS
+    from config.access import CONFIDENCE_SCORES
+except ImportError:
+    from config import get_openai_api_key, LLM_MODEL, CLAIM_TOPICS, CONFIDENCE_SCORES
 
 
 # ============================================================================

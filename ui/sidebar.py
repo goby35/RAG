@@ -4,8 +4,19 @@ import pandas as pd
 
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from config import ACCESS_LEVELS, STATUS_OPTIONS, DATA_COLUMNS
+
+# Add project root to path for imports
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+
+# Try importing from new config module, fallback to old
+try:
+    from config.entities import ACCESS_LEVELS, STATUS_OPTIONS
+    from config.paths import DATA_COLUMNS
+except ImportError:
+    from config import ACCESS_LEVELS, STATUS_OPTIONS, DATA_COLUMNS
+    
 from utils.data_loader import load_data, save_data, get_unique_user_ids
 from utils.triple_extractor import (
     extract_triples, 
