@@ -618,6 +618,15 @@ class PersonalScheduler:
         if created_at and hasattr(created_at, 'to_native'):
             created_at = created_at.to_native()
         
+        # Convert timezone-aware datetimes to naive (strip timezone info)
+        # to ensure consistent comparison with naive datetimes
+        if start_time and hasattr(start_time, 'tzinfo') and start_time.tzinfo is not None:
+            start_time = start_time.replace(tzinfo=None)
+        if end_time and hasattr(end_time, 'tzinfo') and end_time.tzinfo is not None:
+            end_time = end_time.replace(tzinfo=None)
+        if created_at and hasattr(created_at, 'tzinfo') and created_at.tzinfo is not None:
+            created_at = created_at.replace(tzinfo=None)
+        
         try:
             return Event(
                 event_id=e.get("event_id"),

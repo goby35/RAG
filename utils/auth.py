@@ -274,6 +274,14 @@ class AuthManager:
     
     def _create_session_in_db(self, session: UserSession):
         """Create session node in database."""
+        # First, close any existing active sessions for this user
+        close_old_query = """
+        MATCH (u:User {user_id: $user_id})-[:HAS_SESSION]->(s:Session {is_active: true})
+        SET s.is_active = false, s.logout_at = datetime()
+        """
+        self.client.run_query(close_old_query, {"user_id": session.user_id})
+        
+        # Create new session
         query = """
         MATCH (u:User {user_id: $user_id})
         CREATE (s:Session {

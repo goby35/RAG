@@ -105,15 +105,19 @@ class PresenceManager:
         
         row = result[0]
         status_str = row.get("status", "offline")
+        has_active_session = row.get("has_active_session", False)
         
-        # If has active session, consider online
-        if row.get("has_active_session"):
-            status = PresenceStatus.ONLINE
-        else:
-            try:
-                status = PresenceStatus(status_str)
-            except ValueError:
-                status = PresenceStatus.OFFLINE
+        # Priority: Use database presence_status first
+        # Session is just an additional indicator
+        try:
+            status = PresenceStatus(status_str)
+        except ValueError:
+            status = PresenceStatus.OFFLINE
+        
+        # If user has no active session and status is ONLINE, they're actually OFFLINE
+        # (This handles stale status from crashed sessions)
+        if not has_active_session and status == PresenceStatus.ONLINE:
+            status = PresenceStatus.OFFLINE
         
         # Convert Neo4j DateTime if needed
         last_seen = row.get("last_seen")
@@ -191,14 +195,17 @@ class PresenceManager:
         users = []
         for row in result:
             status_str = row.get("status", "offline")
+            has_active_session = row.get("has_active_session", False)
             
-            if row.get("has_active_session"):
-                status = PresenceStatus.ONLINE
-            else:
-                try:
-                    status = PresenceStatus(status_str)
-                except ValueError:
-                    status = PresenceStatus.OFFLINE
+            # Priority: Use database presence_status first
+            try:
+                status = PresenceStatus(status_str)
+            except ValueError:
+                status = PresenceStatus.OFFLINE
+            
+            # If user has no active session and status is ONLINE, they're actually OFFLINE
+            if not has_active_session and status == PresenceStatus.ONLINE:
+                status = PresenceStatus.OFFLINE
             
             last_seen = row.get("last_seen")
             if last_seen and hasattr(last_seen, 'to_native'):

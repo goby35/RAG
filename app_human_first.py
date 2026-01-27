@@ -162,11 +162,20 @@ def render_sidebar():
             
             st.markdown(f"**Trạng thái**: {status_emoji} {session.presence_status.value.title()}")
             
-            # Status selector
+            # Status selector with correct emoji for each option
+            def format_status(status):
+                emoji_map = {
+                    PresenceStatus.ONLINE: "🟢",
+                    PresenceStatus.AWAY: "🟡",
+                    PresenceStatus.BUSY: "🔴",
+                    PresenceStatus.OFFLINE: "⚫"
+                }
+                return f"{emoji_map.get(status, '⚫')} {status.value.title()}"
+            
             new_status = st.selectbox(
                 "Thay đổi trạng thái",
                 options=[PresenceStatus.ONLINE, PresenceStatus.AWAY, PresenceStatus.BUSY],
-                format_func=lambda x: f"{status_emoji} {x.value.title()}",
+                format_func=format_status,
                 index=0 if session.presence_status == PresenceStatus.ONLINE else 1
             )
             
@@ -423,21 +432,80 @@ def render_chat_page():
     # Mark as read
     router.mark_conversation_as_read(session.user_id, target_user_id)
     
-    # Display messages
+    # Display messages with custom styling
+    st.markdown("""
+    <style>
+    .chat-message {
+        padding: 10px 15px;
+        border-radius: 15px;
+        margin: 5px 0;
+        max-width: 70%;
+        word-wrap: break-word;
+    }
+    .user-message {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        margin-left: auto;
+        text-align: right;
+    }
+    .other-message {
+        background: #f0f2f6;
+        color: #1f1f1f;
+        margin-right: auto;
+    }
+    .ai-badge {
+        font-size: 0.75em;
+        color: #ffa500;
+        font-style: italic;
+    }
+    .msg-time {
+        font-size: 0.7em;
+        opacity: 0.7;
+        margin-top: 3px;
+    }
+    .msg-container {
+        display: flex;
+        margin: 8px 0;
+    }
+    .msg-container.right {
+        justify-content: flex-end;
+    }
+    .msg-container.left {
+        justify-content: flex-start;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    
     chat_container = st.container(height=400)
     with chat_container:
         for msg in messages:
             is_mine = msg.sender_id == session.user_id
             
-            with st.chat_message("user" if is_mine else "assistant"):
-                if msg.is_ai_response:
-                    st.markdown(f"🤖 *AI đại diện {target_name}*")
+            if is_mine:
+                # My messages - right aligned
+                st.markdown(f"""
+                <div class="msg-container right">
+                    <div class="chat-message user-message">
+                        {msg.content}
+                        <div class="msg-time">{msg.timestamp.strftime("%H:%M %d/%m")}</div>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+            else:
+                # Other's messages - left aligned
+                ai_badge = "<span class='ai-badge'>🤖 AI đại diện</span><br>" if msg.is_ai_response else ""
+                disclaimer = f"<div class='msg-time'><em>{msg.ai_disclaimer}</em></div>" if msg.ai_disclaimer else ""
                 
-                st.markdown(msg.content)
-                st.caption(msg.timestamp.strftime("%H:%M %d/%m"))
-                
-                if msg.ai_disclaimer:
-                    st.caption(f"_{msg.ai_disclaimer}_")
+                st.markdown(f"""
+                <div class="msg-container left">
+                    <div class="chat-message other-message">
+                        {ai_badge}
+                        {msg.content}
+                        <div class="msg-time">{msg.timestamp.strftime("%H:%M %d/%m")}</div>
+                        {disclaimer}
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
     
     # Send message
     if prompt := st.chat_input(f"Nhắn tin cho {target_name}..."):

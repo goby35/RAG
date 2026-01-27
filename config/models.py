@@ -18,6 +18,8 @@ class LLMProviderType(str, Enum):
     """Supported LLM providers."""
     OPENAI = "openai"
     AZURE_OPENAI = "azure_openai"
+    CEREBRAS = "cerebras"
+    GROQ = "groq"
 
 
 @dataclass
@@ -71,10 +73,18 @@ class ModelConfig:
         max_sequence_length=512
     )
     
-    # Default LLM model
+    # Default LLM model - Cerebras (Main)
     DEFAULT_LLM = LLMModelConfig(
-        model_name="gpt-4o-mini",
-        provider=LLMProviderType.OPENAI,
+        model_name="llama-3.3-70b",
+        provider=LLMProviderType.CEREBRAS,
+        max_tokens=512,
+        temperature=0.7
+    )
+    
+    # Fallback LLM model - Groq
+    FALLBACK_LLM = LLMModelConfig(
+        model_name="llama-3.3-70b-versatile",
+        provider=LLMProviderType.GROQ,
         max_tokens=512,
         temperature=0.7
     )
@@ -99,6 +109,19 @@ class ModelConfig:
     }
     
     LLM_MODELS = {
+        # Cerebras Models (Main - Super fast)
+        "llama-3.3-70b": LLMModelConfig(
+            model_name="llama-3.3-70b",
+            provider=LLMProviderType.CEREBRAS,
+            max_tokens=8192
+        ),
+        # Groq Models (Fallback)
+        "llama-3.3-70b-versatile": LLMModelConfig(
+            model_name="llama-3.3-70b-versatile",
+            provider=LLMProviderType.GROQ,
+            max_tokens=8192
+        ),
+        # OpenAI Models (Legacy)
         "gpt-4o-mini": LLMModelConfig(
             model_name="gpt-4o-mini",
             provider=LLMProviderType.OPENAI,

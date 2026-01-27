@@ -21,6 +21,8 @@ class Settings:
     
     # API Keys
     openai_api_key: str = field(default_factory=lambda: os.environ.get('OPENAI_API_KEY', ''))
+    cerebras_api_key: str = field(default_factory=lambda: os.environ.get('CEREBRAS_API_KEY', ''))
+    groq_api_key: str = field(default_factory=lambda: os.environ.get('GROQ_API_KEY', ''))
     
     # Neo4j Configuration
     neo4j_uri: str = field(default_factory=lambda: os.environ.get('NEO4J_URI', 'bolt://localhost:7687'))
@@ -63,6 +65,14 @@ class Settings:
             if 'OPENAI_API_KEY' in st.secrets:
                 settings.openai_api_key = st.secrets['OPENAI_API_KEY']
                 os.environ['OPENAI_API_KEY'] = settings.openai_api_key
+            
+            if 'CEREBRAS_API_KEY' in st.secrets:
+                settings.cerebras_api_key = st.secrets['CEREBRAS_API_KEY']
+                os.environ['CEREBRAS_API_KEY'] = settings.cerebras_api_key
+            
+            if 'GROQ_API_KEY' in st.secrets:
+                settings.groq_api_key = st.secrets['GROQ_API_KEY']
+                os.environ['GROQ_API_KEY'] = settings.groq_api_key
             
             if 'NEO4J_URI' in st.secrets:
                 settings.neo4j_uri = st.secrets['NEO4J_URI']
