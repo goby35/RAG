@@ -280,14 +280,22 @@ def render_home_page():
     if not other_users:
         st.info("Không có người dùng khác trong hệ thống")
     else:
-        cols = st.columns(min(len(other_users), 4))
-        for i, user in enumerate(other_users[:4]):
+        # Deduplicate users by user_id
+        seen_ids = set()
+        unique_users = []
+        for u in other_users:
+            if u.user_id not in seen_ids:
+                seen_ids.add(u.user_id)
+                unique_users.append(u)
+        
+        cols = st.columns(min(len(unique_users), 4))
+        for i, user in enumerate(unique_users[:4]):
             with cols[i]:
                 with st.container(border=True):
                     st.markdown(f"**{user.status_emoji} {user.user_name}**")
                     st.caption(user.status_text)
                     
-                    if st.button("💬 Chat", key=f"chat_{user.user_id}"):
+                    if st.button("💬 Chat", key=f"home_chat_{user.user_id}_{i}"):
                         st.session_state.current_chat_user = user.user_id
                         st.session_state.page = "chat"
                         st.rerun()
@@ -329,7 +337,15 @@ def render_messages_page():
     # Contact list
     st.markdown("### 📋 Liên hệ")
     
-    for contact in contacts:
+    # Deduplicate contacts by user_id
+    seen_contact_ids = set()
+    unique_contacts = []
+    for c in contacts:
+        if c["user_id"] not in seen_contact_ids:
+            seen_contact_ids.add(c["user_id"])
+            unique_contacts.append(c)
+    
+    for idx, contact in enumerate(unique_contacts):
         user_id = contact["user_id"]
         name = contact["name"]
         
@@ -345,7 +361,7 @@ def render_messages_page():
                 st.caption(f"Tin nhắn gần nhất: {contact['last_message_time']}")
         
         with col2:
-            if st.button("💬 Chat", key=f"open_chat_{user_id}"):
+            if st.button("💬 Chat", key=f"open_chat_{user_id}_{idx}"):
                 st.session_state.current_chat_user = user_id
                 st.session_state.page = "chat"
                 st.rerun()
@@ -594,7 +610,7 @@ def render_search_page():
         else:
             st.success(f"Tìm thấy {len(results.users)} người dùng")
             
-            for user_card in results.users:
+            for idx, user_card in enumerate(results.users):
                 with st.container(border=True):
                     # Get presence
                     presence_mgr = PresenceManager(client)
@@ -615,12 +631,12 @@ def render_search_page():
                             st.caption(f"🤝 {relationship}")
                     
                     with col2:
-                        if st.button("💬 Chat", key=f"search_chat_{user_card.user_id}"):
+                        if st.button("💬 Chat", key=f"search_chat_{user_card.user_id}_{idx}"):
                             st.session_state.current_chat_user = user_card.user_id
                             st.session_state.page = "chat"
                             st.rerun()
                         
-                        if st.button("📋 Xem hồ sơ", key=f"search_profile_{user_card.user_id}"):
+                        if st.button("📋 Xem hồ sơ", key=f"search_profile_{user_card.user_id}_{idx}"):
                             st.session_state.viewing_profile = user_card.user_id
                             st.session_state.page = "view_profile"
                             st.rerun()

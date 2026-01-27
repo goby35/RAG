@@ -128,3 +128,9 @@ CLAIM_TOPICS = _entity_config.CLAIM_TOPIC_LABELS
 CATEGORY_TO_TOPIC = _entity_config.CATEGORY_TO_TOPIC
 EVIDENCE_TYPES = _entity_config.EVIDENCE_TYPE_LABELS
 USER_ROLES = _entity_config.USER_ROLE_LABELS
+
+# Access levels for claims (legacy compatibility)
+ACCESS_LEVELS = ["owner", "connections_only", "public"]
+
+# Status options for claims (legacy compatibility)
+STATUS_OPTIONS = ["self_declared", "has_evidence", "attested", "attested_trusted"]

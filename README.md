@@ -434,10 +434,10 @@ RETURN u.name, c.content_summary, c.status
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    Gatekeeper Logic v2                       │
+│                    Gatekeeper Logic v2                      │
 ├─────────────────────────────────────────────────────────────┤
 │ Bước 1 (Scope): Lọc Claims theo Target User ID              │
-│ Bước 2 (Access Control):                                     │
+│ Bước 2 (Access Control):                                    │
 │   - Owner (Viewer == Target): Xem TẤT CẢ                    │
 │   - Recruiter: Xem public + verified (connections_only)     │
 │   - Public/Anonymous: Chỉ xem public                        │
